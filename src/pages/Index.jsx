@@ -1,6 +1,6 @@
-import { Box, Button, Checkbox, Flex, Input, VStack, Heading, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Checkbox, Flex, Input, VStack, Heading, useColorModeValue, IconButton } from '@chakra-ui/react';
 import { useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { FaPlus, FaTrash } from 'react-icons/fa';
 
 const Index = () => {
   const [tasks, setTasks] = useState([]);
@@ -28,6 +28,11 @@ const Index = () => {
     setTasks(updatedTasks);
   };
 
+  const handleDeleteTask = (id) => {
+    const filteredTasks = tasks.filter(task => task.id !== id);
+    setTasks(filteredTasks);
+  };
+
   const bg = useColorModeValue('gray.50', 'gray.800');
 
   return (
@@ -51,6 +56,12 @@ const Index = () => {
               <Checkbox isChecked={task.completed} onChange={() => handleCompleteTask(task.id)}>
                 {task.text}
               </Checkbox>
+              <IconButton
+                aria-label="Delete task"
+                icon={<FaTrash />}
+                onClick={() => handleDeleteTask(task.id)}
+                colorScheme="red"
+              />
             </Flex>
           ))}
         </VStack>
