@@ -1,10 +1,17 @@
 import { Box, Button, Checkbox, Flex, Input, VStack, Heading, useColorModeValue, IconButton } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaPlus, FaTrash } from 'react-icons/fa';
 
 const Index = () => {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(() => {
+    const savedTasks = localStorage.getItem('tasks');
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  });
   const [inputValue, setInputValue] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
 
   const handleAddTask = () => {
     if (inputValue.trim() !== '') {
